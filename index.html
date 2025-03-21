@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zombie Shooter Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            transform-origin: center center;
+        }
+
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #000;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px #ffffff;
+        }
+
+        #game-over {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 20px #ffffff;
+        }
+
+        #restart-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: #ffffff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #restart-button:hover {
+            background: #cccccc;
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        .kill-streak {
+            position: absolute;
+            color: #ffffff;
+            font-size: 24px;
+            text-shadow: 0 0 10px #ffffff;
+            pointer-events: none;
+            animation: fadeOut 1s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            from { 
+                opacity: 1; 
+                transform: translateY(0);
+                color: #ffffff;
+                text-shadow: 0 0 10px #ffffff;
+            }
+            to { 
+                opacity: 0; 
+                transform: translateY(-20px);
+                color: #ffffff;
+                text-shadow: 0 0 20px #ffffff;
+            }
+        }
+
+        @keyframes dashTrail {
+            from { 
+                opacity: 0.8; 
+                transform: scale(1);
+                background: #0066ff;
+                box-shadow: 0 0 15px #0066ff;
+            }
+            to { 
+                opacity: 0; 
+                transform: scale(0.5);
+                background: #0088ff;
+                box-shadow: 0 0 30px #0066ff;
+            }
+        }
+
+        .dash-trail {
+            position: absolute;
+            background: #0066ff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: dashTrail 0.8s ease-out forwards;
+            box-shadow: 0 0 15px #0066ff;
+        }
+
+        .particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 5px #ffffff;
+        }
+
+        .explosion {
+            position: absolute;
+            pointer-events: none;
+            animation: explode 0.3s ease-out forwards;
+        }
+
+        @keyframes explode {
+            from {
+                transform: scale(0);
+                opacity: 1;
+                background: #ffffff;
+                box-shadow: 0 0 20px #ffffff;
+            }
+            to {
+                transform: scale(2);
+                opacity: 0;
+                background: #ffffff;
+                box-shadow: 0 0 40px #ffffff;
+            }
+        }
+
+        .blood-particle {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: blood 0.5s ease-out forwards;
+        }
+
+        @keyframes blood {
+            from {
+                transform: scale(1);
+                opacity: 0.8;
+                background: #ffffff;
+            }
+            to {
+                transform: scale(0);
+                opacity: 0;
+                background: #ffffff;
+            }
+        }
+
+        /* New dash effect animations */
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-3px, 3px); }
+            50% { transform: translate(3px, -3px); }
+            75% { transform: translate(-3px, -3px); }
+        }
+
+        .shake {
+            animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        .dash-active #gameContainer {
+            animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) infinite;
+        }
+
+        @keyframes dashFlash {
+            0% { box-shadow: 0 0 10px #0066ff; }
+            50% { box-shadow: 0 0 20px #0066ff; }
+            100% { box-shadow: 0 0 10px #0066ff; }
+        }
+
+        .dash-active #gameCanvas {
+            animation: dashFlash 0.4s ease-in-out infinite;
+        }
+
+        /* Enemy projectile glowing effect */
+        .enemy-projectile {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            background: #00ff00;
+            box-shadow: 0 0 15px #00ff00;
+            animation: glow 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #00ff00; }
+            to { box-shadow: 0 0 20px #00ff00; }
+        }
+
+        /* Audio controls */
+        #audio-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 100;
+            color: white;
+        }
+
+        #audio-controls label {
+            margin-right: 5px;
+        }
+
+        #volume-slider {
+            width: 80px;
+            vertical-align: middle;
+        }
+
+        /* Instructions panel */
+        #instructions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+            max-width: 200px;
+            z-index: 100;
+        }
+
+        #instructions h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        #instructions ul {
+            padding-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        #toggle-instructions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        /* Loading screen */
+        #loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #loading-text {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #loading-bar-container {
+            width: 300px;
+            height: 20px;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #loading-bar {
+            height: 100%;
+            width: 0%;
+            background: #0066ff;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        
+        <div id="game-over">
+            <h1>Game Over</h1>
+            <p>Final Score: <span id="final-score">0</span></p>
+            <button id="restart-button">Play Again</button>
+        </div>
+        
+        <div id="audio-controls">
+            <label for="volume-slider">Volume:</label>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="0.5">
+            <button id="mute-button">🔊</button>
+        </div>
+        
+        <button id="toggle-instructions">Controls</button>
+        
+        <div id="instructions" style="display: none;">
+            <h3>Controls</h3>
+            <ul>
+                <li>WASD: Movement</li>
+                <li>Mouse: Aim</li>
+                <li>Click: Shoot</li>
+                <li>Space: Dash (chains through enemies)</li>
+                <li>T: Toggle auto-shoot</li>
+            </ul>
+            <p>Kill zombies, collect power-ups, and survive as long as possible!</p>
+        </div>
+        
+        <div id="loading-screen">
+            <div id="loading-text">Loading Game...</div>
+            <div id="loading-bar-container">
+                <div id="loading-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio controls functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const volumeSlider = document.getElementById('volume-slider');
+            const muteButton = document.getElementById('mute-button');
+            const toggleInstructions = document.getElementById('toggle-instructions');
+            const instructions = document.getElementById('instructions');
+            const loadingScreen = document.getElementById('loading-screen');
+            const loadingBar = document.getElementById('loading-bar');
+            
+            let isMuted = false;
+            let previousVolume = volumeSlider.value;
+            
+            // Handle volume change
+            volumeSlider.addEventListener('input', function() {
+                const gameAudio = window.audio;
+                if (gameAudio && gameAudio.setVolume) {
+                    gameAudio.setVolume(this.value);
+                    
+                    if (parseFloat(this.value) === 0) {
+                        muteButton.textContent = '🔇';
+                        isMuted = true;
+                    } else {
+                        muteButton.textContent = '🔊';
+                        isMuted = false;
+                        previousVolume = this.value;
+                    }
+                }
+            });
+            
+            // Handle mute toggle
+            muteButton.addEventListener('click', function() {
+                if (isMuted) {
+                    volumeSlider.value = previousVolume;
+                    muteButton.textContent = '🔊';
+                } else {
+                    previousVolume = volumeSlider.value;
+                    volumeSlider.value = 0;
+                    muteButton.textContent = '🔇';
+                }
+                
+                // Trigger the input event to update the volume
+                volumeSlider.dispatchEvent(new Event('input'));
+                isMuted = !isMuted;
+            });
+            
+            // Toggle instructions panel
+            toggleInstructions.addEventListener('click', function() {
+                if (instructions.style.display === 'none') {
+                    instructions.style.display = 'block';
+                } else {
+                    instructions.style.display = 'none';
+                }
+            });
+            
+            // Simulate loading progress
+            let progress = 0;
+            const loadingInterval = setInterval(function() {
+                progress += 5;
+                loadingBar.style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(function() {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 150);
+        });
+    </script>
+    
+    <!-- Load game script after DOM is ready -->
+    <script src="game.js"></script>
+</body>
+</html> 
