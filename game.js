@@ -320,6 +320,9 @@ function shoot() {
             player.ammo--;
             player.shootCooldown = weapon.fireRate;
             
+    // Track shots for accuracy calculation
+    totalShots++;
+            
     audio.playSound('shoot');  // Add shooting sound
     
     const numProjectiles = weapon.projectiles || 1;
@@ -841,11 +844,9 @@ function updateUI() {
 
 // Game over
 function gameOver() {
-    gameRunning = false;
     audio.stopSound('backgroundMusic');  // Stop background music
     audio.playSound('gameOver');  // Play game over sound
-    document.getElementById('game-over').style.display = 'block';
-    document.getElementById('final-score').textContent = score;
+    handleGameOver();  // Use the enhanced game over handler
 }
 
 // Reset game
@@ -1712,6 +1713,9 @@ function updateProjectiles(deltaTime) {
         for (let j = enemies.length - 1; j >= 0; j--) {
             const enemy = enemies[j];
             if (checkCollision(p, enemy)) {
+                // Track hits for accuracy calculation
+                totalHits++;
+                
                 // Apply damage
                 enemy.health -= p.damage;
                 
@@ -1795,6 +1799,9 @@ function init() {
     // Reset game state
     resetGame();
     
+    // Reset game session tracking
+    resetGameSession();
+    
     // Start background music
     audio.playSound('backgroundMusic');
     
@@ -1803,8 +1810,58 @@ function init() {
     requestAnimationFrame(gameLoop);
 }
 
-// Start the game when the window loads
-window.addEventListener('load', init);
+// Don't auto-start the game - wait for lobby to start it
+// The lobby system will call init() when ready
+// window.addEventListener('load', init);
+
+// Game session tracking
+let gameStartTime = 0;
+let totalShots = 0;
+let totalHits = 0;
+
+// Enhanced game over handling
+function handleGameOver() {
+    gameRunning = false;
+    
+    // Calculate game session stats
+    const playTime = (Date.now() - gameStartTime) / 1000;
+    const accuracy = totalShots > 0 ? (totalHits / totalShots * 100) : 0;
+    
+    // Update global stats
+    if (typeof updateGameEndStats === 'function') {
+        updateGameEndStats(score, wave, accuracy, playTime);
+    }
+    
+    // Show game over screen
+    const gameOverDiv = document.getElementById('game-over');
+    const finalScoreSpan = document.getElementById('final-score');
+    
+    if (finalScoreSpan) {
+        finalScoreSpan.textContent = score;
+    }
+    
+    if (gameOverDiv) {
+        gameOverDiv.style.display = 'block';
+    }
+    
+    // Add return to lobby button functionality
+    const restartButton = document.getElementById('restart-button');
+    if (restartButton) {
+        restartButton.onclick = function() {
+            gameOverDiv.style.display = 'none';
+            if (typeof returnToLobby === 'function') {
+                returnToLobby();
+            }
+        };
+    }
+}
+
+// Reset game session stats
+function resetGameSession() {
+    gameStartTime = Date.now();
+    totalShots = 0;
+    totalHits = 0;
+}
 
 function updatePlayer(deltaTime) {
     if (!gameRunning) return;

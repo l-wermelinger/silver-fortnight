@@ -294,6 +294,739 @@
             background: #0066ff;
             transition: width 0.3s;
         }
+
+        /* Professional Lobby Styles */
+        #game-lobby {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .lobby-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 150, 255, 0.05) 0%, transparent 50%);
+            animation: backgroundPulse 12s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .lobby-container {
+            position: relative;
+            width: 95%;
+            max-width: 1400px;
+            height: 85%;
+            background: rgba(15, 20, 35, 0.95);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 30px rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .lobby-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            background: linear-gradient(180deg, rgba(0, 255, 255, 0.08) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+        }
+
+        .game-title {
+            font-size: 3rem;
+            color: #00d4ff;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+            margin: 0;
+            letter-spacing: 8px;
+            font-weight: 300;
+            font-family: 'Courier New', monospace;
+        }
+
+        .game-subtitle {
+            font-size: 0.95rem;
+            color: #7a8ba3;
+            margin-top: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .lobby-content {
+            display: flex;
+            flex: 1;
+            padding: 3rem;
+            gap: 3rem;
+        }
+
+        .lobby-left {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .player-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .player-avatar {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid #00d4ff;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 150, 255, 0.05));
+            animation: avatarPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+            50% { box-shadow: 0 0 35px rgba(0, 212, 255, 0.6); }
+        }
+
+        .avatar-icon {
+            color: #00d4ff;
+            font-size: 2.2rem;
+            z-index: 1;
+        }
+
+        .avatar-status {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 16px;
+            height: 16px;
+            background: #00ff88;
+            border: 2px solid #0f1423;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-name-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .player-name-input {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 600;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .player-name-input:focus {
+            outline: none;
+            border-bottom-color: #00d4ff;
+            box-shadow: 0 2px 8px rgba(0, 212, 255, 0.2);
+        }
+
+        .player-name-input[readonly] {
+            cursor: pointer;
+        }
+
+        .player-name-input[readonly]:hover {
+            border-bottom-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .edit-name-btn {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #00d4ff;
+            padding: 0.4rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .edit-name-btn:hover {
+            background: rgba(0, 212, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .player-level {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #000;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .level-number {
+            color: #00d4ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .player-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            color: #00d4ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: #7a8ba3;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lobby-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .lobby-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .lobby-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 212, 255, 0.3);
+            transform: translateX(4px);
+        }
+
+        .lobby-btn.primary {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            border: 1px solid #00d4ff;
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .lobby-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-icon {
+            font-size: 1.1em;
+        }
+
+        .lobby-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .game-info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            flex: 1;
+        }
+
+        .game-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-info-title {
+            color: #00d4ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .game-info-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #00ff88;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .mission-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .mission-stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .mission-stat-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .mission-stat-content {
+            flex: 1;
+        }
+
+        .mission-stat-label {
+            color: #7a8ba3;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.2rem;
+        }
+
+        .mission-stat-value {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .mission-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            font-size: 0.85rem;
+        }
+
+        .mission-description p {
+            margin: 0 0 1rem 0;
+        }
+
+        .mission-objective {
+            color: #00d4ff;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .performance-metrics {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .metrics-header {
+            color: #00d4ff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.03);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .metric-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            color: #7a8ba3;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Panel Styles */
+        .panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .panel.hidden {
+            display: none;
+        }
+
+        .panel-content {
+            background: rgba(10, 15, 30, 0.95);
+            border: 2px solid #0ff;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+        }
+
+        .panel-header h2 {
+            color: #0ff;
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+
+        .close-panel {
+            background: none;
+            border: 2px solid #0ff;
+            color: #0ff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .close-panel:hover {
+            background: #0ff;
+            color: #000;
+        }
+
+        .settings-grid {
+            padding: 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .setting-group {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .setting-group label {
+            color: #0ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-item input[type="range"] {
+            width: 150px;
+            accent-color: #0ff;
+        }
+
+        .setting-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #0ff;
+        }
+
+        /* Leaderboard Styles */
+        .leaderboard-content {
+            padding: 2rem;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #888;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #0ff;
+            border-bottom-color: #0ff;
+        }
+
+        .tab-btn:hover {
+            color: #0ff;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .leaderboard-item {
+            display: grid;
+            grid-template-columns: 50px 1fr 100px 100px;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+            align-items: center;
+        }
+
+        .leaderboard-item .rank {
+            color: #0ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .leaderboard-item .player {
+            color: #fff;
+        }
+
+        .leaderboard-item .score {
+            color: #0ff;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .leaderboard-item .wave {
+            color: #888;
+            text-align: right;
+        }
+
+        /* Enhanced Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            animation: loadingBgShift 3s ease-in-out infinite;
+        }
+
+        @keyframes loadingBgShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .loading-content {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .loading-title {
+            color: #0ff;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px #0ff;
+            animation: loadingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .loading-details {
+            color: #888;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            height: 1.2rem;
+        }
+
+        .loading-bar-container {
+            width: 400px;
+            height: 8px;
+            background: rgba(0, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0ff, #00aaff, #0ff);
+            background-size: 200% 100%;
+            animation: loadingBarFlow 2s linear infinite;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes loadingBarFlow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .loading-percentage {
+            color: #0ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -326,45 +1059,667 @@
             <p>Kill zombies, collect power-ups, and survive as long as possible!</p>
         </div>
         
-        <div id="loading-screen">
-            <div id="loading-text">Loading Game...</div>
-            <div id="loading-bar-container">
-                <div id="loading-bar"></div>
+        <!-- Professional Game Lobby -->
+        <div id="game-lobby">
+            <div class="lobby-background"></div>
+            <div class="lobby-container">
+                <div class="lobby-header">
+                    <h1 class="game-title">ZOMBIE SURVIVAL</h1>
+                    <div class="game-subtitle">Elite Combat Arena</div>
+            </div>
+                
+                <div class="lobby-content">
+                    <div class="lobby-left">
+                        <div class="player-card">
+                            <div class="player-avatar">
+                                <div class="avatar-ring"></div>
+                                <div class="avatar-icon">🎯</div>
+                                <div class="avatar-status"></div>
+                            </div>
+                            <div class="player-info">
+                                <div class="player-name-container">
+                                    <input type="text" id="player-name-input" class="player-name-input" value="Elite Player" maxlength="20" />
+                                    <button id="edit-name-btn" class="edit-name-btn">✏️</button>
+                                </div>
+                                <div class="player-level">
+                                    <span class="level-badge">LV</span>
+                                    <span class="level-number">1</span>
+                                </div>
+                                <div class="player-stats-grid">
+                                    <div class="stat-box">
+                                        <div class="stat-value" id="best-score">0</div>
+                                        <div class="stat-label">Best Score</div>
+                                    </div>
+                                    <div class="stat-box">
+                                        <div class="stat-value" id="games-played">0</div>
+                                        <div class="stat-label">Games Played</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lobby-menu">
+                            <button class="lobby-btn primary" id="play-button">
+                                <span class="btn-icon">▶</span>
+                                START GAME
+                            </button>
+                            <button class="lobby-btn secondary" id="settings-button">
+                                <span class="btn-icon">⚙</span>
+                                SETTINGS
+                            </button>
+                            <button class="lobby-btn secondary" id="leaderboard-button">
+                                <span class="btn-icon">🏆</span>
+                                LEADERBOARD
+                            </button>
+                            <button class="lobby-btn secondary" id="controls-button">
+                                <span class="btn-icon">🎮</span>
+                                CONTROLS
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="lobby-right">
+                        <div class="game-info-card">
+                            <div class="game-info-header">
+                                <div class="game-info-title">MISSION BRIEFING</div>
+                                <div class="game-info-status">
+                                    <div class="status-indicator"></div>
+                                    <span>READY TO DEPLOY</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mission-stats">
+                                <div class="mission-stat">
+                                    <div class="mission-stat-icon">🌊</div>
+                                    <div class="mission-stat-content">
+                                        <div class="mission-stat-label">Starting Wave</div>
+                                        <div class="mission-stat-value">1</div>
+                                    </div>
+                                </div>
+                                <div class="mission-stat">
+                                    <div class="mission-stat-icon">⚔️</div>
+                                    <div class="mission-stat-content">
+                                        <div class="mission-stat-label">Difficulty</div>
+                                        <div class="mission-stat-value">Normal</div>
+                                    </div>
+                                </div>
+                                <div class="mission-stat">
+                                    <div class="mission-stat-icon">🔫</div>
+                                    <div class="mission-stat-content">
+                                        <div class="mission-stat-label">Primary Weapon</div>
+                                        <div class="mission-stat-value">Assault Rifle</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mission-description">
+                                <p>Hostile forces have overrun the combat zone. Your mission: eliminate all threats and survive as long as possible.</p>
+                                <p class="mission-objective">• Eliminate zombie hostiles<br>• Collect tactical upgrades<br>• Survive increasing waves</p>
+                            </div>
+                        </div>
+                        
+                        <div class="performance-metrics">
+                            <div class="metrics-header">PERFORMANCE METRICS</div>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-icon">🎯</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">---%</div>
+                                        <div class="metric-label">Accuracy</div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">🔥</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">---</div>
+                                        <div class="metric-label">Kill Streak</div>
+                                    </div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-icon">⏱️</div>
+                                    <div class="metric-content">
+                                        <div class="metric-value">--:--</div>
+                                        <div class="metric-label">Best Time</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div id="settings-panel" class="panel hidden">
+            <div class="panel-content">
+                <div class="panel-header">
+                    <h2>SETTINGS</h2>
+                    <button class="close-panel" id="close-settings">✕</button>
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>Audio</label>
+                        <div class="setting-item">
+                            <span>Master Volume</span>
+                            <input type="range" id="master-volume" min="0" max="1" step="0.1" value="0.5">
+                        </div>
+                        <div class="setting-item">
+                            <span>Sound Effects</span>
+                            <input type="range" id="sfx-volume" min="0" max="1" step="0.1" value="0.7">
+                        </div>
+                        <div class="setting-item">
+                            <span>Music</span>
+                            <input type="range" id="music-volume" min="0" max="1" step="0.1" value="0.5">
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <label>Gameplay</label>
+                        <div class="setting-item">
+                            <span>Auto-Shoot</span>
+                            <input type="checkbox" id="auto-shoot-setting">
+                        </div>
+                        <div class="setting-item">
+                            <span>Screen Shake</span>
+                            <input type="checkbox" id="screen-shake-setting" checked>
+                        </div>
+                        <div class="setting-item">
+                            <span>Show FPS</span>
+                            <input type="checkbox" id="show-fps-setting">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Panel -->
+        <div id="leaderboard-panel" class="panel hidden">
+            <div class="panel-content">
+                <div class="panel-header">
+                    <h2>LEADERBOARD</h2>
+                    <button class="close-panel" id="close-leaderboard">✕</button>
+                </div>
+                <div class="leaderboard-content">
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" data-tab="local">Local Scores</button>
+                        <button class="tab-btn" data-tab="session">This Session</button>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboard-list">
+                        <div class="leaderboard-item">
+                            <div class="rank">1</div>
+                            <div class="player">Elite Player</div>
+                            <div class="score">0</div>
+                            <div class="wave">Wave 1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen (Improved) -->
+        <div id="loading-screen" class="hidden">
+            <div class="loading-background"></div>
+            <div class="loading-content">
+                <div class="loading-title">INITIALIZING COMBAT SYSTEMS</div>
+                <div class="loading-details" id="loading-details">Loading assets...</div>
+                <div class="loading-bar-container">
+                    <div class="loading-bar" id="loading-bar"></div>
+                </div>
+                <div class="loading-percentage" id="loading-percentage">0%</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Audio controls functionality
+        // Game State Management
+        let gameState = 'lobby'; // 'lobby', 'loading', 'playing', 'paused', 'gameOver'
+        let gameStats = {
+            gamesPlayed: 0,
+            bestScore: 0,
+            totalPlayTime: 0,
+            accuracy: 0,
+            bestStreak: 0,
+            bestTime: 0
+        };
+
+        // Load saved stats from localStorage
+        function loadGameStats() {
+            const saved = localStorage.getItem('zombieGameStats');
+            if (saved) {
+                gameStats = { ...gameStats, ...JSON.parse(saved) };
+                updateStatsDisplay();
+            }
+        }
+
+        // Save stats to localStorage
+        function saveGameStats() {
+            localStorage.setItem('zombieGameStats', JSON.stringify(gameStats));
+        }
+
+        // Update stats display in lobby
+        function updateStatsDisplay() {
+            const bestScoreEl = document.getElementById('best-score');
+            const gamesPlayedEl = document.getElementById('games-played');
+            
+            if (bestScoreEl) bestScoreEl.textContent = gameStats.bestScore;
+            if (gamesPlayedEl) gamesPlayedEl.textContent = gameStats.gamesPlayed;
+            
+            // Update performance metrics
+            const metricValues = document.querySelectorAll('.metric-value');
+            if (metricValues.length >= 3) {
+                metricValues[0].textContent = gameStats.accuracy > 0 ? `${gameStats.accuracy}%` : '---%';
+                metricValues[1].textContent = gameStats.bestStreak > 0 ? gameStats.bestStreak : '---';
+                metricValues[2].textContent = gameStats.bestTime > 0 ? formatTime(gameStats.bestTime) : '--:--';
+            }
+        }
+
+        // Player name management
+        function loadPlayerName() {
+            const savedName = localStorage.getItem('zombiePlayerName');
+            const nameInput = document.getElementById('player-name-input');
+            if (savedName && nameInput) {
+                nameInput.value = savedName;
+            }
+        }
+
+        function savePlayerName(name) {
+            localStorage.setItem('zombiePlayerName', name);
+        }
+
+        function getPlayerName() {
+            return localStorage.getItem('zombiePlayerName') || 'Elite Player';
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Professional Loading System
+        function startGameLoading() {
+            gameState = 'loading';
+            const loadingScreen = document.getElementById('loading-screen');
+            const lobby = document.getElementById('game-lobby');
+            const loadingBar = document.getElementById('loading-bar');
+            const loadingDetails = document.getElementById('loading-details');
+            const loadingPercentage = document.getElementById('loading-percentage');
+            
+            lobby.style.display = 'none';
+            loadingScreen.classList.remove('hidden');
+            
+            const loadingSteps = [
+                { text: 'Initializing combat systems...', duration: 800 },
+                { text: 'Loading weapon arsenal...', duration: 600 },
+                { text: 'Spawning enemy forces...', duration: 700 },
+                { text: 'Calibrating difficulty...', duration: 500 },
+                { text: 'Preparing battlefield...', duration: 600 },
+                { text: 'Systems ready. Deploying...', duration: 400 }
+            ];
+            
+            let currentStep = 0;
+            let progress = 0;
+            
+            function updateLoading() {
+                if (currentStep < loadingSteps.length) {
+                    const step = loadingSteps[currentStep];
+                    if (loadingDetails) loadingDetails.textContent = step.text;
+                    
+                    const stepProgress = (currentStep + 1) / loadingSteps.length * 100;
+                    const progressIncrement = (stepProgress - progress) / (step.duration / 50);
+                    
+                    const progressInterval = setInterval(() => {
+                        progress += progressIncrement;
+                        if (progress >= stepProgress) {
+                            progress = stepProgress;
+                            clearInterval(progressInterval);
+                            currentStep++;
+                            
+                            if (currentStep < loadingSteps.length) {
+                                setTimeout(updateLoading, 100);
+                            } else {
+                                // Loading complete
+                                setTimeout(() => {
+                                    loadingScreen.classList.add('hidden');
+                                    startGame();
+                                }, 500);
+                            }
+                        }
+                        
+                        if (loadingBar) loadingBar.style.width = `${progress}%`;
+                        if (loadingPercentage) loadingPercentage.textContent = `${Math.floor(progress)}%`;
+                    }, 50);
+                } else {
+                    // Fallback completion
+                    progress = 100;
+                    if (loadingBar) loadingBar.style.width = '100%';
+                    if (loadingPercentage) loadingPercentage.textContent = '100%';
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        startGame();
+                    }, 500);
+                }
+            }
+            
+            updateLoading();
+        }
+
+        // Start the actual game
+        function startGame() {
+            gameState = 'playing';
+            gameStats.gamesPlayed++;
+            saveGameStats();
+            updateStatsDisplay();
+            
+            // Initialize the game (existing init function will be called)
+            if (typeof init === 'function') {
+                init();
+            }
+        }
+
+        // Return to lobby (called when game ends)
+        function returnToLobby() {
+            gameState = 'lobby';
+            const lobby = document.getElementById('game-lobby');
+            if (lobby) lobby.style.display = 'flex';
+            updateStatsDisplay();
+            
+            // Stop game loop if running
+            if (typeof gameRunning !== 'undefined') {
+                gameRunning = false;
+            }
+        }
+
+        // Update game stats when game ends
+        function updateGameEndStats(finalScore, wave, accuracy, playTime) {
+            if (finalScore > gameStats.bestScore) {
+                gameStats.bestScore = finalScore;
+            }
+            
+            if (accuracy > gameStats.accuracy) {
+                gameStats.accuracy = Math.floor(accuracy);
+            }
+            
+            if (playTime > gameStats.bestTime) {
+                gameStats.bestTime = playTime;
+            }
+            
+            gameStats.totalPlayTime += playTime;
+            
+            // Save score to leaderboard
+            const scores = JSON.parse(localStorage.getItem('zombieGameScores') || '[]');
+            scores.push({
+                score: finalScore,
+                wave: wave,
+                accuracy: Math.floor(accuracy),
+                playTime: playTime,
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('zombieGameScores', JSON.stringify(scores));
+            
+            saveGameStats();
+        }
+
+        // Lobby System
         document.addEventListener('DOMContentLoaded', function() {
+            // Load saved stats and player name
+            loadGameStats();
+            loadPlayerName();
+            
+            // Initialize lobby as default state
+            gameState = 'lobby';
+            const lobby = document.getElementById('game-lobby');
+            const loadingScreen = document.getElementById('loading-screen');
+            
+            if (lobby) lobby.style.display = 'flex';
+            if (loadingScreen) loadingScreen.classList.add('hidden');
+            
+            // Player name editing functionality
+            const nameInput = document.getElementById('player-name-input');
+            const editNameBtn = document.getElementById('edit-name-btn');
+            
+            if (nameInput && editNameBtn) {
+                // Initially make input readonly
+                nameInput.readOnly = true;
+                
+                // Edit button click handler
+                editNameBtn.addEventListener('click', function() {
+                    if (nameInput.readOnly) {
+                        // Enable editing
+                        nameInput.readOnly = false;
+                        nameInput.focus();
+                        nameInput.select();
+                        editNameBtn.textContent = '✓';
+                        editNameBtn.style.color = '#00ff88';
+                    } else {
+                        // Save and disable editing
+                        nameInput.readOnly = true;
+                        editNameBtn.textContent = '✏️';
+                        editNameBtn.style.color = '#00d4ff';
+                        savePlayerName(nameInput.value.trim() || 'Elite Player');
+                        updateLeaderboardPlayerName();
+                    }
+                });
+                
+                // Handle Enter key to save
+                nameInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !nameInput.readOnly) {
+                        editNameBtn.click();
+                    }
+                });
+                
+                // Handle blur to save
+                nameInput.addEventListener('blur', function() {
+                    if (!nameInput.readOnly) {
+                        editNameBtn.click();
+                    }
+                });
+                
+                // Prevent spaces at the beginning and limit length
+                nameInput.addEventListener('input', function() {
+                    let value = this.value;
+                    // Remove leading spaces
+                    value = value.replace(/^\s+/, '');
+                    // Limit to 20 characters
+                    if (value.length > 20) {
+                        value = value.substring(0, 20);
+                    }
+                    this.value = value;
+                });
+            }
+            
+            // Lobby button handlers
+            const playButton = document.getElementById('play-button');
+            if (playButton) {
+                playButton.addEventListener('click', function() {
+                    startGameLoading();
+                });
+            }
+            
+            const settingsButton = document.getElementById('settings-button');
+            if (settingsButton) {
+                settingsButton.addEventListener('click', function() {
+                    const panel = document.getElementById('settings-panel');
+                    if (panel) panel.classList.remove('hidden');
+                });
+            }
+            
+            const leaderboardButton = document.getElementById('leaderboard-button');
+            if (leaderboardButton) {
+                leaderboardButton.addEventListener('click', function() {
+                    updateLeaderboard();
+                    const panel = document.getElementById('leaderboard-panel');
+                    if (panel) panel.classList.remove('hidden');
+                });
+            }
+            
+            const controlsButton = document.getElementById('controls-button');
+            if (controlsButton) {
+                controlsButton.addEventListener('click', function() {
+                    const instructions = document.getElementById('instructions');
+                    if (instructions) {
+                        if (instructions.style.display === 'none' || instructions.style.display === '') {
+                            instructions.style.display = 'block';
+                        } else {
+                            instructions.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            // Panel close handlers
+            const closeSettings = document.getElementById('close-settings');
+            if (closeSettings) {
+                closeSettings.addEventListener('click', function() {
+                    const panel = document.getElementById('settings-panel');
+                    if (panel) panel.classList.add('hidden');
+                });
+            }
+            
+            const closeLeaderboard = document.getElementById('close-leaderboard');
+            if (closeLeaderboard) {
+                closeLeaderboard.addEventListener('click', function() {
+                    const panel = document.getElementById('leaderboard-panel');
+                    if (panel) panel.classList.add('hidden');
+                });
+            }
+            
+            // Settings handlers
+            const masterVolume = document.getElementById('master-volume');
+            const sfxVolume = document.getElementById('sfx-volume');
+            const musicVolume = document.getElementById('music-volume');
+            const autoShootSetting = document.getElementById('auto-shoot-setting');
+            const screenShakeSetting = document.getElementById('screen-shake-setting');
+            const showFpsSetting = document.getElementById('show-fps-setting');
+            
+            // Load settings from localStorage
+            const savedSettings = localStorage.getItem('zombieGameSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                if (masterVolume) masterVolume.value = settings.masterVolume || 0.5;
+                if (sfxVolume) sfxVolume.value = settings.sfxVolume || 0.7;
+                if (musicVolume) musicVolume.value = settings.musicVolume || 0.5;
+                if (autoShootSetting) autoShootSetting.checked = settings.autoShoot || false;
+                if (screenShakeSetting) screenShakeSetting.checked = settings.screenShake !== false;
+                if (showFpsSetting) showFpsSetting.checked = settings.showFps || false;
+            }
+            
+            // Settings event listeners
+            function saveSettings() {
+                const settings = {
+                    masterVolume: masterVolume ? parseFloat(masterVolume.value) : 0.5,
+                    sfxVolume: sfxVolume ? parseFloat(sfxVolume.value) : 0.7,
+                    musicVolume: musicVolume ? parseFloat(musicVolume.value) : 0.5,
+                    autoShoot: autoShootSetting ? autoShootSetting.checked : false,
+                    screenShake: screenShakeSetting ? screenShakeSetting.checked : true,
+                    showFps: showFpsSetting ? showFpsSetting.checked : false
+                };
+                localStorage.setItem('zombieGameSettings', JSON.stringify(settings));
+                applySettings(settings);
+            }
+            
+            function applySettings(settings) {
+                // Apply audio settings
+                const audioElements = document.querySelectorAll('audio');
+                audioElements.forEach(audio => {
+                    audio.volume = settings.masterVolume * (audio.classList.contains('music') ? settings.musicVolume : settings.sfxVolume);
+                });
+                
+                // Apply game settings
+                if (typeof player !== 'undefined') {
+                    player.autoShoot = settings.autoShoot;
+                }
+            }
+            
+            if (masterVolume) masterVolume.addEventListener('input', saveSettings);
+            if (sfxVolume) sfxVolume.addEventListener('input', saveSettings);
+            if (musicVolume) musicVolume.addEventListener('input', saveSettings);
+            if (autoShootSetting) autoShootSetting.addEventListener('change', saveSettings);
+            if (screenShakeSetting) screenShakeSetting.addEventListener('change', saveSettings);
+            if (showFpsSetting) showFpsSetting.addEventListener('change', saveSettings);
+            
+            // Update player name in leaderboard display
+            function updateLeaderboardPlayerName() {
+                const playerName = getPlayerName();
+                // This will be updated when the leaderboard is next refreshed
+                // For now, we just need to ensure the name is saved
+            }
+
+            // Leaderboard functionality
+            function updateLeaderboard() {
+                const leaderboardList = document.getElementById('leaderboard-list');
+                if (!leaderboardList) return;
+                
+                const scores = JSON.parse(localStorage.getItem('zombieGameScores') || '[]');
+                const playerName = getPlayerName();
+                scores.sort((a, b) => b.score - a.score);
+                
+                leaderboardList.innerHTML = '';
+                
+                if (scores.length === 0) {
+                    leaderboardList.innerHTML = `
+                        <div style="text-align: center; color: #888; padding: 2rem;">
+                            No scores yet. Play your first game to see results here!
+                        </div>
+                    `;
+                } else {
+                    scores.slice(0, 10).forEach((scoreData, index) => {
+                        const item = document.createElement('div');
+                        item.className = 'leaderboard-item';
+                        item.innerHTML = `
+                            <div class="rank">${index + 1}</div>
+                            <div class="player">${playerName}</div>
+                            <div class="score">${scoreData.score}</div>
+                            <div class="wave">Wave ${scoreData.wave || 1}</div>
+                        `;
+                        leaderboardList.appendChild(item);
+                    });
+                }
+            }
+            
+            // Tab switching for leaderboard
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    updateLeaderboard();
+                });
+            });
+            
+            // Close panels when clicking outside
+            document.querySelectorAll('.panel').forEach(panel => {
+                panel.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Legacy audio controls (keeping for compatibility)
             const volumeSlider = document.getElementById('volume-slider');
             const muteButton = document.getElementById('mute-button');
             const toggleInstructions = document.getElementById('toggle-instructions');
             const instructions = document.getElementById('instructions');
-            const loadingScreen = document.getElementById('loading-screen');
-            const loadingBar = document.getElementById('loading-bar');
             
+            if (volumeSlider && muteButton) {
             let isMuted = false;
-            let previousVolume = volumeSlider.value;
+                let previousVolume = 0.5;
             
-            // Handle volume change
             volumeSlider.addEventListener('input', function() {
-                const gameAudio = window.audio;
-                if (gameAudio && gameAudio.setVolume) {
-                    gameAudio.setVolume(this.value);
+                    const volume = parseFloat(this.value);
+                    const audioElements = document.querySelectorAll('audio');
+                    audioElements.forEach(audio => {
+                        audio.volume = volume;
+                    });
                     
-                    if (parseFloat(this.value) === 0) {
+                    if (volume === 0) {
                         muteButton.textContent = '🔇';
                         isMuted = true;
                     } else {
                         muteButton.textContent = '🔊';
                         isMuted = false;
-                        previousVolume = this.value;
-                    }
                 }
             });
             
-            // Handle mute toggle
             muteButton.addEventListener('click', function() {
                 if (isMuted) {
                     volumeSlider.value = previousVolume;
@@ -375,12 +1730,12 @@
                     muteButton.textContent = '🔇';
                 }
                 
-                // Trigger the input event to update the volume
                 volumeSlider.dispatchEvent(new Event('input'));
                 isMuted = !isMuted;
             });
+            }
             
-            // Toggle instructions panel
+            if (toggleInstructions && instructions) {
             toggleInstructions.addEventListener('click', function() {
                 if (instructions.style.display === 'none') {
                     instructions.style.display = 'block';
@@ -388,20 +1743,7 @@
                     instructions.style.display = 'none';
                 }
             });
-            
-            // Simulate loading progress
-            let progress = 0;
-            const loadingInterval = setInterval(function() {
-                progress += 5;
-                loadingBar.style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                    setTimeout(function() {
-                        loadingScreen.style.display = 'none';
-                    }, 500);
-                }
-            }, 150);
+            }
         });
     </script>
     
